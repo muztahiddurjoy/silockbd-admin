@@ -4,14 +4,20 @@ const TableAdapter = () => {
   return (
     <tr>
         
-        <td className="w-[80px]">
-                <img src="https://www.silock.com.my/news_file/1996389322how%20to%20apply%20epoxy.jpg" alt="Avatar Tailwind CSS Component" className="w-[80px] h-[80px] object-cover rounded-md" />
+        <td className="">
+        <div className="flex items-center gap-3">
+            <div className="avatar">
+              <div className="mask mask-squircle w-12 h-12">
+                <img src="https://www.silock.com.my/photo_file/4887450281SL-900S.jpg" alt="Avatar Tailwind CSS Component" />
+              </div>
+            </div>
+            <div>
+              <div className="font-bold">Random Product</div>
+              <div className="text-sm opacity-50">Lorem ipsum dolor sit amet.</div>
+            </div>
+          </div>
         </td>
-        <td>
-          <p className="font-medium text-md">Random Product</p>
-          <p className="text-xs text-gray-400">Lorem ipsum dolor sit amet.....</p>
-
-        </td>
+        
         <td>
             <button className="btn btn-xs btn-primary"><Download size={16}/></button>
         </td>

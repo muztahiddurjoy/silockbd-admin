@@ -15,9 +15,6 @@ const Products = () => {
     {/* head */}
     <thead>
       <tr>
-        <th>
-          
-        </th>
         <th>Name</th>
         <th>Tds</th>
         <th>Sds</th>
@@ -36,7 +33,6 @@ const Products = () => {
     
     <tfoot>
       <tr>
-        <th></th>
         <th>Name</th>
         <th>Tds</th>
         <th>Sds</th>
