@@ -1,9 +1,11 @@
-import React from 'react'
 import Dashboard from '../components/Dashboard/Dashboard'
+import Header from '../components/Common/Header'
 
 const Products = () => {
   return (
-    <Dashboard>Products</Dashboard>
+    <Dashboard>
+      <Header>Products</Header>
+    </Dashboard>
   )
 }
 
