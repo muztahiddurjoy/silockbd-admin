@@ -1,8 +1,9 @@
 import React from 'react'
+import Dashboard from '../components/Dashboard/Dashboard'
 
 const Config = () => {
   return (
-    <div>Config</div>
+    <Dashboard>Config</Dashboard>
   )
 }
 
