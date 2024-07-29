@@ -2,13 +2,14 @@ import Dashboard from '../components/Dashboard/Dashboard'
 import Header from '../components/Common/Header'
 import { Plus } from 'lucide-react'
 import TableAdapter from '../components/Products/TableAdapter/TableAdapter'
+import { Link } from 'react-router-dom'
 
 const Products = () => {
   return (
     <Dashboard>
       <div className="flex itesm-center justify-between">
       <Header>Products</Header>
-      <button className="btn btn-primary btn-sm"><Plus size={16}/>New</button>
+      <Link to="/add-product"><button className="btn btn-primary btn-sm"><Plus size={16}/>New</button></Link>
       </div>
       <div className="overflow-x-auto mt-10">
         <div className="flex items-center justify-between">

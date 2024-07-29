@@ -5,8 +5,10 @@ import Config from "./pages/Config";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
+import AddProduct from "./pages/AddProduct";
 
-export const router = createBrowserRouter([{
+export const router = createBrowserRouter([
+    {
     path: "/",
     element: <Products />
 },
@@ -28,4 +30,7 @@ export const router = createBrowserRouter([{
 },{
     path:'/orders',
     element:<Orders/>
+},{
+    path:'/add-product',
+    element:<AddProduct/>
 }])
