@@ -12,10 +12,6 @@ const ContactAdapter = () => {
       <p className=''>Company Name : <span className='text-gray-600'>Kire mama</span></p>
       <p className=''>Tel : <span className='text-gray-600'>Kire mama</span></p>
       <p className=''>Mobile : <span className='text-gray-600'>Kire mama</span></p>
-      <p className=''>Fax : <span className='text-gray-600'>Kire mama</span></p>
-      <p className=''>City/Town : <span className='text-gray-600'>Kire mama</span></p>
-      <p className=''>State/Province : <span className='text-gray-600'>Kire mama</span></p>
-      <p className=''>ZIP/Postal Code : <span className='text-gray-600'>Kire mama</span></p>
       <p className=''>Country : <span className='text-gray-600'>Kire mama</span></p>
       <p className=''>Address : <span className='text-gray-600'>Kire mama</span></p>
       

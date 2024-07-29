@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Header from "../components/Common/Header"
 import Dashboard from "../components/Dashboard/Dashboard"
+import ProductImage from "../components/Products/AddProduct/ProductImage/ProductImage"
 
 
 
@@ -21,9 +22,9 @@ const AddProduct = () => {
     <Dashboard>
         <Header>Add Product</Header>
         <div className="mt-5">
-            <p className="font-medium">Product Images</p>
+            {/* <p className="font-medium">Product Images</p> */}
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 2xl:grid-cols-5">
-                
+                <ProductImage/>
             </div>
         </div>
     </Dashboard>
