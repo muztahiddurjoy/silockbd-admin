@@ -1,9 +1,9 @@
 type Product = {
     name:string,
     description:string,
-    images:ServerFile[],
-    tds:string,
-    sds:string,
+    image?:ServerFile,
+    tds:string|File,
+    sds:string|File,
     minimum_order:string
     codeNumber:string
     packagingSize:string
