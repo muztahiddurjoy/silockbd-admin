@@ -12,6 +12,19 @@ type Product = {
     category:string
 }
 
+type Contact = {
+    address:string,
+        companyName:string,
+        companyWebsite:string,
+        country:string,
+        email:string,
+        mobileNumber:string,
+        name:string,
+        telNumber:string,
+        enquiry:string
+        time:number
+}
+
 type ServerFile = {
     url:string,
     fileName:string,
