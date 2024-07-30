@@ -23,7 +23,7 @@ const Dashboard = ({children}:React.PropsWithChildren) => {
     <div className="drawer lg:drawer-open">
   <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
   <div className="drawer-content p-3 relative">
-    <div className="mt-10 md:mt-0">
+    <div className="mt-10 md:mt-0 min-h-[100vh]">
     {children}
     <ToastContainer/>
     </div>
@@ -42,10 +42,6 @@ const Dashboard = ({children}:React.PropsWithChildren) => {
       </li>
       <li>
         <Link to="/categories"><Menu size={16}/> Categories</Link>
-      </li>
-      
-      <li>
-        <Link to="/config"><Globe size={16}/> Site Data</Link>
       </li>
       
       <li>

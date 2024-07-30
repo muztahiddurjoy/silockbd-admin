@@ -9,6 +9,7 @@ type Product = {
     packagingSize:string
     innerBox:string
     outerCarton:string
+    category:string
 }
 
 type ServerFile = {

@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Header from "../components/Common/Header"
 import Dashboard from "../components/Dashboard/Dashboard"
 import ProductImage from "../components/Products/AddProduct/ProductImage/ProductImage"
 import { Loader2, Save, Upload } from "lucide-react"
 import { uploadBytes, ref as storageRef, getDownloadURL } from "firebase/storage"
 import { db, storage } from "../firebase"
-import { addDoc,collection } from "firebase/firestore"
+import { addDoc,collection, DocumentData, getDocs } from "firebase/firestore"
 import { toast } from "react-toastify"
 
 
@@ -13,6 +13,7 @@ import { toast } from "react-toastify"
 
 const AddProduct = () => {
     const [photo, setphoto] = useState<File|null>()
+    const [categories, setcategories] = useState<DocumentData[]>([])
     const [details, setdetails] = useState<Product>({
       codeNumber:'',
       description:'',
@@ -22,10 +23,16 @@ const AddProduct = () => {
       outerCarton:'',
       packagingSize:'',
       sds:'',
-      tds:''
+      tds:'',
+      category:''
     })
     const [uploading, setuploading] = useState(false)
 
+
+    const getCategories = async  ()=>{
+      const result = await getDocs(collection(db,'categories'))
+      setcategories(result.docs)
+    }
 
     const sendToFirebase = async ()=>{
       setuploading(true)
@@ -43,7 +50,8 @@ const AddProduct = () => {
             outerCarton:'',
             packagingSize:'',
             sds:'',
-            tds:''
+            tds:'',
+            category:''
           })
           setphoto(null)
           toast.success('Product Added',{
@@ -68,6 +76,11 @@ const AddProduct = () => {
       }
       
     }
+
+    useEffect(() => {
+      getCategories()
+    }, [])
+    
     
   return (
     <Dashboard>
@@ -75,12 +88,26 @@ const AddProduct = () => {
         <div className="mt-5">
             {/* <p className="font-medium">Product Images</p> */}
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 2xl:grid-cols-5">
+              <div className="h-full">
                 <ProductImage photo={photo} setphoto={setphoto}/>
+                <div className="">
+                  <label className="text-sm text-primary">Category</label> <br />
+                  <select className="select w-full max-w-xs focus:outline-none border border-primary/30 focus:border-primary" onChange={e=> setdetails(p=>({...p,category:e.target.value}))}>
+                    <option disabled selected>Category</option>
+                    {categories.map((v,i)=>{
+                      if(v?.exists()){
+                        return <option key={i} value={v?.data().category}>{v?.data().category}</option>
+                      }            
+                    })}
+                  </select>
+                  </div>
+                </div>
                 <div className="md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   <div className="">
                     <label className="text-sm text-primary">Code Number</label> <br />
                     <input type="text" className="input input-sm w-full border-primary/30 focus:outline-none focus:border-primary" value={details.codeNumber} onChange={e=> setdetails(p=>({...p,codeNumber:e.target.value}))} />
                   </div>
+                  
                   <div className="lg:col-span-2">
                     <label className="text-sm text-primary">Product Name</label> <br />
                     <input type="text" className="input input-sm w-full border-primary/30 focus:outline-none focus:border-primary" value={details.name} onChange={e=> setdetails(p=>({...p,name:e.target.value}))} />
@@ -125,7 +152,7 @@ const AddProduct = () => {
                 </div> 
             </div>
             <div className="flex justify-end">  
-              <button onClick={sendToFirebase} className="btn btn-primary mt-3" disabled={!photo||!details.name||!details.codeNumber||!details.description||!details.innerBox||!details.minimum_order||!details.outerCarton||!details.packagingSize||!details.tds||!details.sds||uploading}>Publish {uploading?<Loader2 className="animate-spin" size={18}/>:<Save size={18} />}</button>
+              <button onClick={sendToFirebase} className="btn btn-primary mt-3" disabled={!photo||!details.name||!details.codeNumber||!details.description||!details.innerBox||!details.minimum_order||!details.outerCarton||!details.packagingSize||!details.tds||!details.sds||uploading||!details.category}>Publish {uploading?<Loader2 className="animate-spin" size={18}/>:<Save size={18} />}</button>
             </div>
             
         </div>
