@@ -3,24 +3,46 @@ import Header from '../components/Common/Header'
 import { Plus } from 'lucide-react'
 import TableAdapter from '../components/Products/TableAdapter/TableAdapter'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { collection, DocumentData, getDocs } from 'firebase/firestore'
+import { db } from '../firebase'
 
 const Products = () => {
+  const [products, setproducts] = useState<DocumentData[]>([])
+  const [categories, setcategories] = useState<DocumentData[]>([])
+
+  const getCategories = async  ()=>{
+    const result = await getDocs(collection(db,'categories'))
+    setcategories(result.docs)
+  }
+
+  const getProducts = async ()=>{
+    const result = await getDocs(collection(db,'products'))
+    setproducts(result.docs)
+  }
+
+  useEffect(() => {
+    getCategories()
+    getProducts()
+  }, [])
+  
   return (
     <Dashboard>
-      <div className="flex itesm-center justify-between">
+      <div className="flex items-center justify-between">
       <Header>Products</Header>
       <Link to="/add-product"><button className="btn btn-primary btn-sm"><Plus size={16}/>New</button></Link>
       </div>
       <div className="overflow-x-auto mt-10">
         <div className="flex items-center justify-between">
           <div className="">
-            <label className='text-sm font-semibold'>Sort By</label>
+            <label className='text-sm font-semibold'>Category Filter</label>
             <select className="select select-bordered w-full max-w-xs border-primary select-sm">
-                <option disabled selected>Sort By</option>
-                <option>Date</option>
-                <option>Name</option>
-                <option>Price High to Low</option>
-                <option>Price Low to High</option>
+                <option disabled selected>Category</option>
+                {categories.map((v,i)=>{
+                      if(v?.exists()){
+                        return <option key={i} value={v?.data().category}>{v?.data().category}</option>
+                      }            
+                })}
               </select>
           </div>
           <label className="input input-bordered input-sm border-primary flex items-center gap-2">
@@ -32,7 +54,8 @@ const Products = () => {
     {/* head */}
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Image</th>
+        <th>Details</th>
         <th>Tds</th>
         <th>Sds</th>
         <th>Minimum Order</th>
@@ -45,12 +68,18 @@ const Products = () => {
       </tr>
     </thead>
     <tbody>
-      {Array(10).fill("_").map((v,i)=> <TableAdapter key={i}/>)}
+      {products.map((v,i)=>{
+        if(v?.exists()){
+          const product:Product = v?.data()
+          return <TableAdapter {...product} key={i}/>
+        }
+      })}
     </tbody>
     
     <tfoot>
       <tr>
         <th>Name</th>
+        <th>Details</th>
         <th>Tds</th>
         <th>Sds</th>
         <th>Minimum Order</th>
