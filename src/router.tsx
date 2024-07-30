@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import Products from "./pages/Products";
-import Tds from "./pages/Tds";
 import Config from "./pages/Config";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import AddProduct from "./pages/AddProduct";
+import Categories from "./pages/Categories";
 
 export const router = createBrowserRouter([
     {
@@ -13,8 +13,8 @@ export const router = createBrowserRouter([
     element: <Products />
 },
 {
-    path:'/tds',
-    element:<Tds/>
+    path:'/categories',
+    element:<Categories/>
 },
 {
     path:'/config',

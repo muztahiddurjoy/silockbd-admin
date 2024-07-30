@@ -3,6 +3,7 @@ import { auth } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
 import { Contact, File, Globe, Menu, Package, ShoppingCart } from 'lucide-react'
+import { ToastContainer } from 'react-toastify'
 
 
 
@@ -23,7 +24,9 @@ const Dashboard = ({children}:React.PropsWithChildren) => {
   <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
   <div className="drawer-content p-3 relative">
     <div className="mt-10 md:mt-0">
-    {children}</div>
+    {children}
+    <ToastContainer/>
+    </div>
     <label htmlFor="my-drawer-2" className="btn btn-sm absolute top-2 left-2 btn-primary drawer-button lg:hidden"><Menu size={16}/></label>
   
   </div> 
@@ -38,7 +41,7 @@ const Dashboard = ({children}:React.PropsWithChildren) => {
         <Link to="/orders" className={''}><ShoppingCart size={16}/> Orders</Link>
       </li>
       <li>
-        <Link to="/tds"><File size={16}/> TDS</Link>
+        <Link to="/categories"><Menu size={16}/> Categories</Link>
       </li>
       
       <li>

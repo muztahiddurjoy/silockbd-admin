@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 interface ProductImageProps{
-    photo:File|undefined
+    photo:File|null|undefined
     setphoto:Function
 }
 

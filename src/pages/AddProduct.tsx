@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Header from "../components/Common/Header"
 import Dashboard from "../components/Dashboard/Dashboard"
 import ProductImage from "../components/Products/AddProduct/ProductImage/ProductImage"
-import { Save, Upload } from "lucide-react"
-import { uploadBytes, ref as storageRef } from "firebase/storage"
-import { storage } from "../firebase"
+import { Loader2, Save, Upload } from "lucide-react"
+import { uploadBytes, ref as storageRef, getDownloadURL } from "firebase/storage"
+import { db, storage } from "../firebase"
+import { addDoc,collection } from "firebase/firestore"
+import { toast } from "react-toastify"
+
 
 
 
 const AddProduct = () => {
-    const [photo, setphoto] = useState<File>()
+    const [photo, setphoto] = useState<File|null>()
     const [details, setdetails] = useState<Product>({
       codeNumber:'',
       description:'',
@@ -21,11 +24,47 @@ const AddProduct = () => {
       sds:'',
       tds:''
     })
+    const [uploading, setuploading] = useState(false)
+
+
     const sendToFirebase = async ()=>{
+      setuploading(true)
       if(photo&&details.tds instanceof File &&details.sds instanceof File){
-        const photoResult = await uploadBytes(storageRef(storage,`/products/${photo?.name}`),photo)
-        const tdsResult = await uploadBytes(storageRef(storage,`/tds/${details.tds?.name}`),details.tds)
-        const sdsResult = await uploadBytes(storageRef(storage,`/sds/${details.sds?.name}`),details.sds)
+        const image =  await getDownloadURL((await uploadBytes(storageRef(storage,`/products/${photo?.name}`),photo)).ref)
+        const tds = await getDownloadURL(((await uploadBytes(storageRef(storage,`/tds/${details.tds?.name}`),details.tds)).ref))
+        const sds = await getDownloadURL(((await uploadBytes(storageRef(storage,`/sds/${details.sds?.name}`),details.sds)).ref))
+        addDoc(collection(db,'products'),{...details,image,tds,sds}).then(()=>{
+          setdetails({
+            codeNumber:'',
+            description:'',
+            innerBox:'',
+            minimum_order:'',
+            name:'',
+            outerCarton:'',
+            packagingSize:'',
+            sds:'',
+            tds:''
+          })
+          setphoto(null)
+          toast.success('Product Added',{
+            position:'bottom-right'
+          })
+        }).catch((err)=>{
+          console.log(err)
+          toast.error('Failed to upload',{
+            position:'bottom-right'
+          })
+        }).finally(()=>{
+          setuploading(false)
+        })
+        
+      }
+      else{
+        console.log("Not a file")
+        setuploading(false)
+        toast.error('Select a file',{
+          position:'bottom-right'
+        })
       }
       
     }
@@ -86,7 +125,7 @@ const AddProduct = () => {
                 </div> 
             </div>
             <div className="flex justify-end">  
-              <button className="btn btn-primary mt-3" disabled={!photo||!details.name||!details.codeNumber||!details.description||!details.innerBox||!details.minimum_order||!details.outerCarton||!details.packagingSize||!details.tds||!details.sds}>Publish <Save size={18} /></button>
+              <button onClick={sendToFirebase} className="btn btn-primary mt-3" disabled={!photo||!details.name||!details.codeNumber||!details.description||!details.innerBox||!details.minimum_order||!details.outerCarton||!details.packagingSize||!details.tds||!details.sds||uploading}>Publish {uploading?<Loader2 className="animate-spin" size={18}/>:<Save size={18} />}</button>
             </div>
             
         </div>
