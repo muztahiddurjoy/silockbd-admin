@@ -1,37 +1,30 @@
 import { Edit, ExternalLink, X } from "lucide-react"
 
-const OrderAdapter = () => {
+
+
+const OrderAdapter = (order:ProductOrder) => {
   return (
     <tr>
-        <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
-        </th>
+        
         <td>
           <div className="flex items-center gap-3">
             <div className="avatar">
               <div className="mask mask-squircle w-12 h-12">
-                <img src="https://www.silock.com.my/photo_file/4887450281SL-900S.jpg" alt="Avatar Tailwind CSS Component" />
+                <img src={order.productImage} />
               </div>
-            </div>
-            <div>
-              <div className="font-bold">Random Product</div>
-              <div className="text-sm opacity-50">Lorem ipsum dolor sit amet.</div>
             </div>
           </div>
         </td>
         <td>
-          #A1B2C3234
+          {order.productName}
         </td>
-        <td>Pending</td>
-        <td>Pending</td>
-        <td>{new Date().toDateString()}</td>
-        <td>-</td>
-        <th>
-        <button className="btn btn-sm btn-primary"><ExternalLink size={16}/></button>
-        <button className="btn btn-sm btn-secondary text-white ml-1"><Edit size={16}/></button>
-        </th>
+        <td>{order.productCode}</td>
+        <td>{order.quantity}</td>
+        <td>{order.customerName}</td>
+        <td>{order.email}</td>
+        <td>{order.phone}</td>
+        <td>{order.businessName}</td>
+        <td>{order.address}</td>
       </tr>
   )
 }

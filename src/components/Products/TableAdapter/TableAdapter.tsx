@@ -32,14 +32,14 @@ const TableAdapter = (props:Product) => {
         </td>
         <td>{props.minimum_order}</td>
         <td>
-          {props.codeNumber}kire
+          {props.codeNumber}
         </td>
-        <td>{props.packagingSize} in</td>
+        <td>{props.packagingSize} ml</td>
         <td>
-          {props.innerBox} in
+          {props.innerBox} pcs
         </td>
         <td>
-          {props.outerCarton} in
+          {props.outerCarton} pcs
         </td>
         <td>
           <button className="btn btn-sm btn-primary"><Edit size={16}/></button>

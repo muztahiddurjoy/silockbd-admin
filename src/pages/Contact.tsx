@@ -29,7 +29,6 @@ const Contact = () => {
       <Header>Contact Response</Header>
       </div>
       {contacts.sort((prev,next)=>Number(next.time)-Number(prev.time)).reverse().map((v,i)=><ContactAdapter {...v} key={i}/>)}
-      {/* {Array(10).fill("_").map((v)=><ContactAdapter key={v}/>)} */}
     </Dashboard>
   )
 }

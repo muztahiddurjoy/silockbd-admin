@@ -30,3 +30,32 @@ type ServerFile = {
     fileName:string,
     pathName:string
 }
+
+type Order={
+    customer:{
+        name:string,
+        businessName:string,
+        phone:string,
+        address:string,
+        email:string
+    },
+    products:Array<{
+        code:string,
+        image:string,
+        name:string,
+        quantity:string
+    }>
+}
+
+interface ProductOrder {
+    productImage: string;
+    productName: string;
+    productCode: string;
+    quantity: number;
+    customerName: string;
+    email: string;
+    phone: string;
+    businessName: string;
+    address: string;
+  }
+  

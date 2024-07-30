@@ -124,15 +124,15 @@ const AddProduct = () => {
                     <input type="number" className="input input-sm w-full border-primary/30 focus:outline-none focus:border-primary" value={details.packagingSize} onChange={e=> setdetails(p=>({...p,packagingSize:e.target.value}))} />
                   </div>
                   <div className="">
-                    <label className="text-sm text-primary">Inner Box (Quantity)</label> <br />
+                    <label className="text-sm text-primary">Inner Box (pcs)</label> <br />
                     <input type="number" className="input input-sm w-full border-primary/30 focus:outline-none focus:border-primary" value={details.innerBox} onChange={e=> setdetails(p=>({...p,innerBox:e.target.value}))} />
                   </div>
                   <div className="">
-                    <label className="text-sm text-primary">Outer Box (Quantity) </label> <br />
+                    <label className="text-sm text-primary">Outer Box (pcs) </label> <br />
                     <input type="number" className="input input-sm w-full border-primary/30 focus:outline-none focus:border-primary" value={details.outerCarton} onChange={e=> setdetails(p=>({...p,outerCarton:e.target.value}))} />
                   </div>
                   <div className="h-full flex items-end flex-col">
-                    <label className="text-sm text-primary w-[150px]">Min Order (Quantity)</label><br />
+                    <label className="text-sm text-primary w-[150px]">Min Order (pcs)</label><br />
                     <input type="number" className="input input-sm w-[150px] border-primary/30 focus:outline-none focus:border-primary" value={details.minimum_order} onChange={e=> setdetails(p=>({...p,minimum_order:e.target.value}))} />
                   </div>
                 </div>
