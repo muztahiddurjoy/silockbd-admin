@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { collection, DocumentData, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
+import EditProduct from '../components/Products/EditProduct'
 
 const Products = () => {
   const [products, setproducts] = useState<DocumentData[]>([])
@@ -119,7 +120,6 @@ const Products = () => {
     <tbody>
       {temparr.map((v,i)=><TableAdapter setEdit={seteditProduct} reload={getProducts} {...v} key={i}/>)}
     </tbody>
-    
     <tfoot>
       <tr>
         <th>Name</th>
@@ -135,8 +135,8 @@ const Products = () => {
         <th></th>
       </tr>
     </tfoot>
-    
   </table>
+  {editProduct?.name&&<EditProduct {...editProduct}/>}
 </div>
     </Dashboard>
   )
