@@ -12,6 +12,7 @@ type Product = {
     category:string
     dbRef?:any
     reload?:Function
+    setEdit?:Function
 }
 
 type Contact = {

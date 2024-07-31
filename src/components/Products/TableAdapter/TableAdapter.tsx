@@ -69,7 +69,7 @@ const TableAdapter = (props:Product) => {
           <button className="btn btn-sm btn-error text-white" disabled={deleting} onClick={deleteProduct}>{deleting?<Loader2 className="animate-spin" size={16}/>:<Trash size={16}/>}</button>
           <button className="btn btn-sm btn-success text-white ml-1"><X size={16}/></button>
         </td>:<td>
-          <button className="btn btn-sm btn-primary"><Edit size={16}/></button>
+          <button className="btn btn-sm btn-primary" onClick={()=>props.setEdit&&props.setEdit(props)}><Edit size={16}/></button>
           <button className="btn btn-sm btn-error text-white ml-1" onClick={()=>setdeleteOpen(true)}><Trash size={16}/></button>
         </td>}
       </tr>

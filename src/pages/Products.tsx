@@ -11,6 +11,7 @@ const Products = () => {
   const [products, setproducts] = useState<DocumentData[]>([])
   const [categories, setcategories] = useState<DocumentData[]>([])
   const [temparr, settemparr] = useState<Product[]>([])
+  const [editProduct, seteditProduct] = useState<Product>()
   const [searchQuery, setsearchQuery] = useState('')
   const [selectedCat, setselectedCat] = useState('')
   const getCategories = async  ()=>{
@@ -70,6 +71,7 @@ const Products = () => {
   }, [selectedCat])
   
   
+ 
   
   
   return (
@@ -115,7 +117,7 @@ const Products = () => {
       </tr>
     </thead>
     <tbody>
-      {temparr.map((v,i)=><TableAdapter reload={getProducts} {...v} key={i}/>)}
+      {temparr.map((v,i)=><TableAdapter setEdit={seteditProduct} reload={getProducts} {...v} key={i}/>)}
     </tbody>
     
     <tfoot>
