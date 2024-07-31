@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { auth } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
-import { Contact, File, Globe, Menu, Package, ShoppingCart } from 'lucide-react'
+import { Contact, File, Globe, List, ListChecks, Menu, Newspaper, Package, ShoppingCart } from 'lucide-react'
 import { ToastContainer } from 'react-toastify'
 
 
@@ -43,7 +43,12 @@ const Dashboard = ({children}:React.PropsWithChildren) => {
       <li>
         <Link to="/categories"><Menu size={16}/> Categories</Link>
       </li>
-      
+      <li>
+        <Link to="/services"><ListChecks size={16}/> Services</Link>
+      </li>
+      <li>
+        <Link to="/news"><Newspaper size={16}/> News</Link>
+      </li>
       <li>
         <Link to="/contact"><Contact size={16}/> Contact</Link>
       </li>
