@@ -59,3 +59,11 @@ interface ProductOrder {
     address: string;
   }
   
+
+  type News={
+    title:string
+    date:string
+    desc:string
+    reload?:Function
+    ref?:any
+  }
