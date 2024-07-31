@@ -1,6 +1,30 @@
-import { Download, Edit, X } from "lucide-react"
+import { deleteDoc } from "firebase/firestore"
+import { Download, Edit, Loader2, Trash, X } from "lucide-react"
+import { useState } from "react"
+import { toast } from "react-toastify"
 
 const TableAdapter = (props:Product) => {
+  const [deleteOpen, setdeleteOpen] = useState(false)
+  const [deleting, setdeleting] = useState(false)
+
+  const deleteProduct = ()=>{
+    setdeleting(true)
+    deleteDoc(props.dbRef).then(()=>{
+      if(props.reload){
+        props.reload()
+      }
+      toast.success('Deleted Successfully!',{
+        position:'bottom-right'
+      })
+    }).catch((err)=>{
+      console.log(err)
+      toast.error('Couln\'t delete. Check console.',{
+        position:'bottom-right'
+      })
+    }).finally(()=>{
+      setdeleting(false)
+    })
+  }
   return (
     <tr>
         
@@ -41,10 +65,13 @@ const TableAdapter = (props:Product) => {
         <td>
           {props.outerCarton} pcs
         </td>
-        <td>
+        {deleteOpen?<td>
+          <button className="btn btn-sm btn-error text-white" disabled={deleting} onClick={deleteProduct}>{deleting?<Loader2 className="animate-spin" size={16}/>:<Trash size={16}/>}</button>
+          <button className="btn btn-sm btn-success text-white ml-1"><X size={16}/></button>
+        </td>:<td>
           <button className="btn btn-sm btn-primary"><Edit size={16}/></button>
-          <button className="btn btn-sm btn-error text-white ml-1"><X size={16}/></button>
-        </td>
+          <button className="btn btn-sm btn-error text-white ml-1" onClick={()=>setdeleteOpen(true)}><Trash size={16}/></button>
+        </td>}
       </tr>
   )
 }

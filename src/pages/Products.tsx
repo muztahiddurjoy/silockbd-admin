@@ -31,6 +31,7 @@ const Products = () => {
   const resetTempArr = ()=>{
     settemparr(products.map((v)=>{
       const product:Product = v?.data()
+      product.dbRef = v.ref
       return product
   }))
   }
@@ -114,7 +115,7 @@ const Products = () => {
       </tr>
     </thead>
     <tbody>
-      {temparr.map((v,i)=><TableAdapter {...v} key={i}/>)}
+      {temparr.map((v,i)=><TableAdapter reload={getProducts} {...v} key={i}/>)}
     </tbody>
     
     <tfoot>

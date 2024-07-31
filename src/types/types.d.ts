@@ -10,6 +10,8 @@ type Product = {
     innerBox:string
     outerCarton:string
     category:string
+    dbRef?:any
+    reload?:Function
 }
 
 type Contact = {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { auth } from '../../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
-import { Contact, File, Globe, List, ListChecks, Menu, Newspaper, Package, ShoppingCart } from 'lucide-react'
+import { Contact, ListChecks, Menu, Newspaper, Package, ShoppingCart } from 'lucide-react'
 import { ToastContainer } from 'react-toastify'
 
 
