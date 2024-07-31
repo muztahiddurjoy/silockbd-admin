@@ -14,7 +14,7 @@ const ProductImage = ({photo,setphoto}:ProductImageProps) => {
             {photo?'Image Attached!':'Attach Image'}
             </button>
             
-            {photo&&<span className='text-xs text-center text-gray-500 mt-1'>{photo instanceof File?photo.name:photo}</span>}
+            {photo&&<span className='text-xs text-center text-gray-500 mt-1'>{photo instanceof File?photo.name:photo.substring(0,20)+"..."}</span>}
     </div>
   )
 }
