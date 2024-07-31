@@ -11,10 +11,13 @@ import ProductImage from "./AddProduct/ProductImage/ProductImage"
 
 
 const EditProduct = (props:Product) => {
-    const [photo, setphoto] = useState<File|null>()
+    const [photo, setphoto] = useState<File|null|string|undefined>(props.image)
+    const [tds, settds] = useState<File|null|string>(props.tds)
+    const [sds, setsds] = useState<File|null|string>(props.sds)
     const [categories, setcategories] = useState<DocumentData[]>([])
     const [details, setdetails] = useState<Product>(props)
     const [uploading, setuploading] = useState(false)
+    const [restrict, setrestrict] = useState(false)
 
 
     const getCategories = async ()=>{
@@ -43,10 +46,63 @@ const EditProduct = (props:Product) => {
     }
 
 
+    const uploadImage = async ()=>{
+      if(photo instanceof File){
+        setrestrict(true)
+        getDownloadURL((await uploadBytes(storageRef(storage,`/products/${photo?.name}`),photo)).ref).then((image)=>{
+          setdetails(p=>({
+            ...p,
+            image:image
+          }))
+        }).finally(()=>{
+          setrestrict(false)
+        })
+      }
+    }
+
+    const uploadTds = async ()=>{
+      if(tds instanceof File){
+        setrestrict(true)
+        getDownloadURL((await uploadBytes(storageRef(storage,`/tds/${tds?.name}`),tds)).ref).then((image)=>{
+          setdetails(p=>({
+            ...p,
+            tds:image
+          }))
+        }).finally(()=>{
+          setrestrict(false)
+        })
+      }
+    }
+
+    const uploadSds = async ()=>{
+      if(sds instanceof File){
+        setrestrict(true)
+        getDownloadURL((await uploadBytes(storageRef(storage,`/sds/${sds?.name}`),sds)).ref).then((image)=>{
+          setdetails(p=>({
+            ...p,
+            sds:image
+          }))
+        }).finally(()=>{
+          setrestrict(false)
+        })
+      }
+    }
+
+    useEffect( () => {
+        uploadImage()
+    }, [photo])
+
+    useEffect( () => {
+        uploadSds()
+    }, [sds])
+
+    useEffect( () => {
+        uploadTds()
+    }, [tds])
+    
+
     const sendToFirebase = async ()=>{
       setuploading(true)
-      if(photo){
-       getDownloadURL((await uploadBytes(storageRef(storage,`/products/${photo?.name}`),photo)).ref).then((image)=>{
         updateDoc(props.dbRef,{
           codeNumber:details.codeNumber,
           description:details.description,
@@ -57,7 +113,7 @@ const EditProduct = (props:Product) => {
           packagingSize:details.packagingSize,
           sds:details.sds,
           tds:details.tds,
-          image:image,
+          image:details.image,
           category:details.category
         }).then(()=>{
           setdetails({
@@ -76,6 +132,7 @@ const EditProduct = (props:Product) => {
         if(props.reload){
           props.reload()
         }
+        
           setphoto(null)
           toast.success('Product Updated',{
             position:'bottom-right'
@@ -88,103 +145,6 @@ const EditProduct = (props:Product) => {
         }).finally(()=>{
           setuploading(false)
         }) 
-       })
-      }
-      else if(details.tds instanceof File){
-         getDownloadURL(((await uploadBytes(storageRef(storage,`/tds/${details.tds?.name}`),details.tds)).ref)).then((tds)=>{
-          updateDoc(props.dbRef,{
-            codeNumber:details.codeNumber,
-            description:details.description,
-            innerBox:details.innerBox,
-            minimum_order:details.minimum_order,
-            name:details.name,
-            outerCarton:details.outerCarton,
-            packagingSize:details.packagingSize,
-            sds:details.sds,
-            tds:tds,
-            image:details.image,
-            category:details.category
-          }).then(()=>{
-            setdetails({
-              codeNumber:'',
-              description:'',
-              innerBox:'',
-              minimum_order:'',
-              name:'',
-              outerCarton:'',
-              packagingSize:'',
-              sds:'',
-              tds:'',
-              category:''
-            })
-            disCardChange()
-          if(props.reload){
-            props.reload()
-          }
-          
-            setphoto(null)
-            toast.success('Product Updated',{
-              position:'bottom-right'
-            })
-          }).catch((err)=>{
-            console.log(err)
-            toast.error('Failed to update',{
-              position:'bottom-right'
-            })
-          }).finally(()=>{
-            setuploading(false)
-          }) 
-         })
-         
-      }
-      else if(details.sds instanceof File){
-         getDownloadURL(((await uploadBytes(storageRef(storage,`/sds/${details.sds?.name}`),details.sds)).ref)).then((sds)=>{
-          updateDoc(props.dbRef,{
-            codeNumber:details.codeNumber,
-            description:details.description,
-            innerBox:details.innerBox,
-            minimum_order:details.minimum_order,
-            name:details.name,
-            outerCarton:details.outerCarton,
-            packagingSize:details.packagingSize,
-            sds:sds,
-            tds:details.tds,
-            image:details.image,
-            category:details.category
-          }).then(()=>{
-            setdetails({
-              codeNumber:'',
-              description:'',
-              innerBox:'',
-              minimum_order:'',
-              name:'',
-              outerCarton:'',
-              packagingSize:'',
-              sds:'',
-              tds:'',
-              category:''
-            })
-            disCardChange()
-          if(props.reload){
-            props.reload()
-          }
-          
-            setphoto(null)
-            toast.success('Product Updated',{
-              position:'bottom-right'
-            })
-          }).catch((err)=>{
-            console.log(err)
-            toast.error('Failed to update',{
-              position:'bottom-right'
-            })
-          }).finally(()=>{
-            setuploading(false)
-          }) 
-        })
-      }
-      
-      
     }
 
     useEffect(() => {
@@ -251,11 +211,11 @@ const EditProduct = (props:Product) => {
                 <div className="flex items-center justify-center mt-3 gap-3">
                   <button className="btn btn-sm btn-primary relative">
                     {details.tds?<p>TDS Attached!</p>:<>TDS <Upload size={16}/></>}
-                    <input type="file" className="absolute top-0 left-0 right-0 bottom-0 opacity-0" accept=".pdf" onChange={e=> setdetails(p=> e.target.files!==null?({...p,tds:e.target.files[0]}):p)} />
+                    <input type="file" className="absolute top-0 left-0 right-0 bottom-0 opacity-0" accept=".pdf" onChange={e=> settds(p=> e.target.files!==null?e.target.files[0]:p)} />
                   </button>
                   <button className="btn btn-sm btn-primary relative">
                     {details.sds?<p>SDS Attached!</p>:<>SDS <Upload size={16}/></>}
-                    <input type="file" className="absolute top-0 left-0 right-0 bottom-0 opacity-0" accept=".pdf" onChange={e=> setdetails(p=> e.target.files!==null?({...p,sds:e.target.files[0]}):p)} />
+                    <input type="file" className="absolute top-0 left-0 right-0 bottom-0 opacity-0" accept=".pdf" onChange={e=> setsds(p=> e.target.files!==null?e.target.files[0]:p)} />
                   </button>
                 </div>
                   
@@ -266,7 +226,7 @@ const EditProduct = (props:Product) => {
               <button 
                 onClick={sendToFirebase} 
                 className="btn btn-primary mt-3" 
-                disabled={!details.name||!details.codeNumber||!details.description||!details.innerBox||!details.minimum_order||!details.outerCarton||!details.packagingSize||!details.tds||!details.sds||uploading||!details.category}>
+                disabled={!details.name||!details.codeNumber||!details.description||!details.innerBox||!details.minimum_order||!details.outerCarton||!details.packagingSize||!details.tds||!details.sds||uploading||!details.category||restrict}>
                   Publish {uploading?<Loader2 className="animate-spin" size={18}/>:<Save size={18} />}</button>
             </div>
             

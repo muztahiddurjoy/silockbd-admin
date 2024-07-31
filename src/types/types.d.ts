@@ -1,7 +1,7 @@
 type Product = {
     name:string,
     description:string,
-    image?:ServerFile,
+    image?:string,
     tds:string|File,
     sds:string|File,
     minimum_order:string
