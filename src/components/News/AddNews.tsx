@@ -1,5 +1,8 @@
-import { Upload } from 'lucide-react'
-import React, { useState } from 'react'
+import { addDoc, collection } from 'firebase/firestore'
+import { Loader2, Upload } from 'lucide-react'
+import { useState } from 'react'
+import { db } from '../../firebase'
+import { toast } from 'react-toastify'
 
 const AddNews = () => {
     const [news, setnews] = useState<News>({
@@ -7,8 +10,28 @@ const AddNews = () => {
         desc:'',
         title:''
     })
+    const [uploading, setuploading] = useState(false)
     const uploadNews = ()=>{
+        setuploading(true)
+        addDoc(collection(db,'news'),news).then(()=>{
+            setnews({
+                date:'',
+                desc:'',
+                title:''
+            })
+            toast.success('News Added Successfully!',{
+                position:'bottom-right'
+            })
 
+        }).catch((err)=>{
+            console.log(err)
+            
+            toast.error('Couln\'nt upload news. Check console',{
+                position:'bottom-right'
+            })
+        }).finally(()=>{
+            setuploading(false)
+        })
     }
   return (
     <div className='card p-3 rounded-md bg-gray-300'>
@@ -26,8 +49,7 @@ const AddNews = () => {
                 <textarea rows={5} value={news.desc} onChange={e=>setnews((p)=>({...p,desc:e.target.value}))} placeholder='Description' className='rounded-md p-2 w-full'></textarea>
             </div>
             <div className="card-actions flex items-center justify-end mt-3">
-                <button className='btn btn-primary btn-md' onClick={uploadNews}><Upload size={16}/>Upoad</button>
-            
+                <button className='btn btn-primary btn-md' disabled={!news.date||!news.title||!news.desc||uploading} onClick={uploadNews}>{uploading?<Loader2 className='animate-spin' size={16}/>:<Upload size={16}/>}Upoad</button>
             </div>
         </div>
   )
