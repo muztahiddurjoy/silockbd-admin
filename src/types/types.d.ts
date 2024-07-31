@@ -67,3 +67,10 @@ interface ProductOrder {
     reload?:Function
     dbRef?:any
   }
+
+  type Service ={
+    title:string
+    desc:string
+    reload?:Function
+    dbRef?:any
+  }
