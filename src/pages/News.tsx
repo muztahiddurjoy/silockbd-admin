@@ -14,13 +14,11 @@ const News = () => {
             result.docs.map((v)=>{
                 if(v.exists()){
                     const data = v?.data()
-                    console.log('REF ',v.ref)
-                    setnews(p=>[...p,{
+                    setnews(p=> p.filter((v)=> (v.date==data.date) && (v.desc==data.desc) && (v.title==data.title)).length==0?[...p,{
                         date:data.date,
                         desc:data.desc,
-                        title:data.title,
-                        dbRef:v.ref
-                    }])
+                        title:data.title
+                    }]:p)
                 }
             })
         })
@@ -30,9 +28,7 @@ const News = () => {
       getNews()
     }, [])
 
-    useEffect(()=>{
-        console.log(news)
-    },[news])
+    
     
   return (
     <Dashboard>
