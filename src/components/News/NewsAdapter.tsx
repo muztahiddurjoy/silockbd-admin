@@ -1,5 +1,8 @@
+import { reload } from 'firebase/auth'
+import { deleteDoc, updateDoc } from 'firebase/firestore'
 import { Edit, Save, Trash, X } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 
 const NewsAdapter = (props:News) => {
@@ -8,10 +11,38 @@ const NewsAdapter = (props:News) => {
         desc:props.desc,
         title:props.title
     })
+
+    useEffect(() => {
+      console.log(props)
+    }, [props])
+    
+
     const [edit, setedit] = useState(false)
     const [deleteOpen, setdeleteOpen] = useState(false)
     const saveChanges = ()=>{
-
+        updateDoc(props.dbRef,{
+            date:news.date,
+            desc:news.desc,
+            title:news.title
+        }).then(()=>{
+            setedit(false)
+            if(props.reload){
+                props.reload()
+            }
+            else{
+                toast.error('Cannot reload',{
+                    position:'bottom-right'
+                })
+            }
+            toast.success('Updated Successfully!',{
+                position:'bottom-right'
+            })
+        }).catch((err)=>{
+            console.log(err)
+            toast.error('Couldn\'t Update. Check console.',{
+                position:'bottom-right'
+            })
+        })
     }
     const discardChanges = ()=>{
         setedit(false)
@@ -22,7 +53,19 @@ const NewsAdapter = (props:News) => {
         })
     }
     const deleteNews = ()=>{
-
+        deleteDoc(props.dbRef).then(()=>{
+            if(props.reload){
+                props.reload()
+            }
+            toast.success('Deleted Successfully!',{
+                position:'bottom-right'
+            })
+        }).catch((err)=>{
+            console.log(err)
+            toast.error('Couln\'t delete. Check console',{
+                position:'bottom-right'
+            })
+        })
     }
   return (
     <div className='card p-3 bg-gray-300 rounded-md'>
@@ -47,7 +90,7 @@ const NewsAdapter = (props:News) => {
         <div>
             <p className="text-sm text-gray-500">{props.date}</p>
             <p className="text-blue-900 mt-3 font-semibold">{props.title}</p>
-            <p className='text-gray-500 mt-1 text-sm'>{props.desc}</p>
+            <p className='text-gray-500 mt-1 text-sm'>{String(props.desc).substring(0,300)}...</p>
             {deleteOpen?<div className="card-actions flex items-center justify-end mt-3">
                 <button className='btn btn-primary btn-sm' onClick={()=>setdeleteOpen(false)}><X size={16}/>Back</button>
                 <button className='btn btn-error btn-sm text-white' onClick={deleteNews}><Trash size={16}/>Confirm</button>

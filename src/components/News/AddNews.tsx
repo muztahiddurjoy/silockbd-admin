@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { db } from '../../firebase'
 import { toast } from 'react-toastify'
 
-const AddNews = () => {
+
+const AddNews = ({reload}:{reload?:Function}) => {
     const [news, setnews] = useState<News>({
         date:'',
         desc:'',
@@ -22,7 +23,9 @@ const AddNews = () => {
             toast.success('News Added Successfully!',{
                 position:'bottom-right'
             })
-
+            if(reload){
+                reload()
+            }
         }).catch((err)=>{
             console.log(err)
             
