@@ -1,7 +1,7 @@
-import { reload } from 'firebase/auth'
+
 import { deleteDoc, updateDoc } from 'firebase/firestore'
 import { Edit, Save, Trash, X } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 

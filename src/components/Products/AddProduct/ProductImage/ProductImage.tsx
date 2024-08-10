@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+
 
 interface ProductImageProps{
     photo:File|null|undefined|string

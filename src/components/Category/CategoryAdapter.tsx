@@ -1,6 +1,6 @@
-import { deleteDoc, DocumentReference } from 'firebase/firestore'
+import { deleteDoc } from 'firebase/firestore'
 import { Check, Trash, X } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 
 interface CategoryAdapterProps{

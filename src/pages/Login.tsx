@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { auth } from '../firebase'
 import { useNavigate } from 'react-router-dom'
 import { FirebaseError } from 'firebase/app'
